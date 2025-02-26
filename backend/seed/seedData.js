@@ -4,7 +4,7 @@ const User = require("../models/User");
 const Attendance = require("../models/Attendance");
 
 mongoose
-  .connect("mongodb+srv://manikanthdaru82:5y67fbrUJ8yCG3cc@cluster0.am5ev.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+  .connect("mongodb+srv://pothugantikalyankumar71:nTqLSjGC5nYPXtta@cluster0.uxmel.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log("MongoDB connection error:", err));
 
@@ -194,8 +194,9 @@ const seedData = async () => {
   try {
     await Student.deleteMany();
     await User.deleteMany();
-    // just for clearing previous attendance data
     // await Attendance.deleteMany();
+    // just for clearing previous attendance data
+    await Attendance.deleteMany();
 
     // Insert parents first
     const insertedParents = await User.insertMany(parents);

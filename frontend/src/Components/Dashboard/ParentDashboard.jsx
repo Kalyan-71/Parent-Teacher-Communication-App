@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
-import { Bell, LogOut, Calendar, LineChart } from 'lucide-react';
+import { Bell, LogOut, Calendar, LineChart, BookOpen } from 'lucide-react';
 import { useState } from 'react';
 import ChildAttendance from './ChildAttendance';
 import ChildProgress from './ChildProgress';
 import ParentCommunication from './ParentCommunication';
 import Notifications from './Notifications';
+import StudentAssignments from './studentAssignments/StudentAssignments';
 
 const ParentDashboard = () => {
   const navigate = useNavigate();
@@ -19,40 +20,29 @@ const ParentDashboard = () => {
 
   return (
     <div className="flex h-screen bg-gray-100">
+      {/* Sidebar Navigation */}
       <div className="w-64 bg-white shadow-lg p-5 flex flex-col h-full justify-between">
         <div>
           <h2 className="text-2xl font-semibold mb-6">Parent Dashboard</h2>
           <nav>
-            <button
-              className={`w-full py-2 px-4 mb-2 text-left rounded-lg ${activeSection === 'dashboard' ? 'bg-indigo-500 text-white' : 'hover:bg-gray-200'}`}
-              onClick={() => setActiveSection('dashboard')}
-            >
-              Dashboard
-            </button>
-            <button
-              className={`w-full py-2 px-4 mb-2 text-left rounded-lg ${activeSection === 'attendance' ? 'bg-indigo-500 text-white' : 'hover:bg-gray-200'}`}
-              onClick={() => setActiveSection('attendance')}
-            >
-              Attendance
-            </button>
-            <button
-              className={`w-full py-2 px-4 mb-2 text-left rounded-lg ${activeSection === 'progress' ? 'bg-indigo-500 text-white' : 'hover:bg-gray-200'}`}
-              onClick={() => setActiveSection('progress')}
-            >
-              Progress Reports
-            </button>
-            <button
-              className={`w-full py-2 px-4 mb-2 text-left rounded-lg ${activeSection === 'communication' ? 'bg-indigo-500 text-white' : 'hover:bg-gray-200'}`}
-              onClick={() => setActiveSection('communication')}
-            >
-              Communication
-            </button>
-            <button
-              className={`w-full py-2 px-4 mb-2 text-left rounded-lg ${activeSection === 'notifications' ? 'bg-indigo-500 text-white' : 'hover:bg-gray-200'}`}
-              onClick={() => setActiveSection('notifications')}
-            >
-              Notifications
-            </button>
+            {[
+              { key: 'dashboard', label: 'Dashboard' },
+              { key: 'attendance', label: 'Attendance' },
+              { key: 'progress', label: 'Progress Reports' },
+              { key: 'communication', label: 'Communication' },
+              { key: 'notifications', label: 'Notifications' },
+              { key: 'assignments', label: 'Student Assignments', icon: <BookOpen className="mr-2" /> },
+            ].map(({ key, label, icon }) => (
+              <button
+                key={key}
+                className={`w-full py-2 px-4 mb-2 text-left flex items-center rounded-lg ${
+                  activeSection === key ? 'bg-indigo-500 text-white' : 'hover:bg-gray-200'
+                }`}
+                onClick={() => setActiveSection(key)}
+              >
+                {icon && icon} {label}
+              </button>
+            ))}
           </nav>
         </div>
         <button
@@ -63,6 +53,7 @@ const ParentDashboard = () => {
         </button>
       </div>
 
+      {/* Main Content Section */}
       <div className="flex-1 p-6">
         {activeSection === 'dashboard' && (
           <>
@@ -91,10 +82,11 @@ const ParentDashboard = () => {
             </div>
           </>
         )}
-         {activeSection === 'attendance' && <ChildAttendance />}
+        {activeSection === 'attendance' && <ChildAttendance />}
         {activeSection === 'progress' && <ChildProgress />}
         {activeSection === 'communication' && <ParentCommunication />}
         {activeSection === 'notifications' && <Notifications />}
+        {activeSection === 'assignments' && <StudentAssignments />}
       </div>
     </div>
   );

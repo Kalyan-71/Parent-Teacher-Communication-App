@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
-import { Bell, LogOut, Users, ClipboardList } from 'lucide-react';
+import { Bell, LogOut, Users, ClipboardList, BookOpen } from 'lucide-react';
 import { useState } from 'react';
 import ManageStudents from './ManageStudents';
-import Attendance from "./Attendance";
+import Attendance from './Attendance';
+import Assignments from './Assignments/Assignments';
 
 const TeacherDashboard = () => {
   const navigate = useNavigate();
@@ -17,35 +18,48 @@ const TeacherDashboard = () => {
 
   return (
     <div className="flex h-screen bg-gray-100">
+      {/* Sidebar */}
       <div className="w-64 bg-white shadow-lg p-5 flex flex-col h-full justify-between">
         <div>
           <h2 className="text-2xl font-semibold mb-6">Teacher Dashboard</h2>
           <nav>
             <button
-              className={`w-full py-2 px-4 mb-2 text-left rounded-lg ${activeSection === 'dashboard' ? 'bg-indigo-500 text-white' : 'hover:bg-gray-200'}`}
+              className={`w-full py-2 px-4 mb-2 text-left rounded-lg ${
+                activeSection === 'dashboard' ? 'bg-indigo-500 text-white' : 'hover:bg-gray-200'
+              }`}
               onClick={() => setActiveSection('dashboard')}
             >
               Dashboard
             </button>
             <button
-              className={`w-full py-2 px-4 mb-2 text-left rounded-lg ${activeSection === 'manage-students' ? 'bg-indigo-500 text-white' : 'hover:bg-gray-200'}`}
+              className={`w-full py-2 px-4 mb-2 text-left rounded-lg ${
+                activeSection === 'manage-students' ? 'bg-indigo-500 text-white' : 'hover:bg-gray-200'
+              }`}
               onClick={() => setActiveSection('manage-students')}
             >
               Manage Students
             </button>
             <button
               className={`w-full py-2 px-4 mb-2 text-left rounded-lg ${
-                activeSection === "attendance" ? "bg-indigo-500 text-white" : "hover:bg-gray-200"
+                activeSection === 'attendance' ? 'bg-indigo-500 text-white' : 'hover:bg-gray-200'
               }`}
-              onClick={() => setActiveSection("attendance")}
+              onClick={() => setActiveSection('attendance')}
             >
               Attendance
             </button>
-            <button className="w-full py-2 px-4 mb-2 text-left rounded-lg hover:bg-gray-200">
+            <button
+              className={`w-full py-2 px-4 mb-2 text-left rounded-lg ${
+                activeSection === 'assignments' ? 'bg-indigo-500 text-white' : 'hover:bg-gray-200'
+              }`}
+              onClick={() => setActiveSection('assignments')}
+            >
+              <BookOpen className="inline-block w-5 h-5 mr-2" />
               Assignments
             </button>
           </nav>
         </div>
+
+        {/* Logout Button */}
         <button
           onClick={handleLogout}
           className="w-full py-2 px-4 text-left rounded-lg text-red-500 hover:text-red-700 flex items-center justify-center"
@@ -54,9 +68,10 @@ const TeacherDashboard = () => {
         </button>
       </div>
 
+      {/* Main Content */}
       <div className="flex-1 p-6">
-        
-        {activeSection === 'dashboard' &&  <>
+        {activeSection === 'dashboard' && (
+          <>
             <div className="flex justify-between items-center mb-6">
               <h1 className="text-3xl font-semibold">Welcome, Teacher!</h1>
               <button className="relative">
@@ -80,10 +95,12 @@ const TeacherDashboard = () => {
                 </div>
               </div>
             </div>
-          </>    }
-        
-        {activeSection === "manage-students" && <ManageStudents/>}
-        {activeSection === "attendance" && <Attendance />}
+          </>
+        )}
+
+        {activeSection === 'manage-students' && <ManageStudents />}
+        {activeSection === 'attendance' && <Attendance />}
+        {activeSection === 'assignments' && <Assignments />}
       </div>
     </div>
   );
